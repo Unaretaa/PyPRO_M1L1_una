@@ -1,12 +1,15 @@
-meme_dict = {
-            "CRINGE": "Sesuatu yang sangat aneh atau memalukan",
-            "LOL": "Tanggapan umum terhadap sesuatu yang lucu",
-            "SHEESH": "Sedikit ketidaksetujuan",
-            "ATE" : "Sesuatu yang mengesankan atau luar biasa",
-            "OOTD" : "singkatan dari Outfit of The Day",
-            }
-word = input("Ketik kata yang tidak Kamu mengerti (gunakan huruf kapital semua!): ")
-if word in meme_dict.keys():
-    print(meme_dict[word])
-else:
-    print("kata tersebut tidak ada ya ges ya cihuy")
+import random
+import time
+
+characters = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+pasword_lenght = int(input("Panjang password: "))
+
+password = ""
+
+for i in range(pasword_lenght):
+    password += random.choice(characters)
+
+print("Menyiapkan password anda...")
+time.sleep(3)
+print("Password anda : " + password)
