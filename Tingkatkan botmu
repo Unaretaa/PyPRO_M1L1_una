@@ -1,0 +1,72 @@
+import discord
+from discord.ext import commands
+import random
+import asyncio
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True  
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hi! I am a bot {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def add(ctx, left: int, right: int):
+    """Adds two numbers together."""
+    await ctx.send(left + right)
+
+@bot.command()
+async def repeat(ctx, times: int, content='repeating...'):
+    """Repeats a message multiple times."""
+    for i in range(times):
+        await ctx.send(content)
+
+@bot.command()
+async def userinfo(ctx, member: discord.Member = None):
+    """Shows info about a user."""
+    member = member or ctx.author  # if no one is mentioned, use the command author
+
+    # safer: check if member has 'joined_at'
+    if hasattr(member, "joined_at"):
+        joined = member.joined_at.strftime('%Y-%m-%d')
+    else:
+        joined = "Not available (user not in this server)"
+
+    await ctx.send(
+        f"👤 Name: {member.name}\n"
+        f"🆔 ID: {member.id}\n"
+        f"📅 Joined: {joined}"
+    )
+@bot.command()
+async def guess(ctx):
+    """Play a number guessing game (1–10)."""
+    await ctx.send("Guess a number between 1 and 10.")
+
+    def is_correct(m):
+        return m.author == ctx.author and m.content.isdigit()
+
+    answer = random.randint(1, 10)
+
+    try:
+        guess = await bot.wait_for("message", check=is_correct, timeout=5.0)
+    except asyncio.TimeoutError:
+        return await ctx.send(f"⏰ Sorry, you took too long! The number was {answer}.")
+
+    if int(guess.content) == answer:
+        await ctx.send("✅ You are right!")
+    else:
+        await ctx.send(f"❌ Oops! The number was actually {answer}.")
+
+
+bot.run()
