@@ -68,5 +68,9 @@ async def guess(ctx):
     else:
         await ctx.send(f"❌ Oops! The number was actually {answer}.")
 
+@bot.command('saran')
+async def saran(ctx):
+    with open('saran.txt', 'r', encoding='utf-8') as f:
+        await ctx.send(f.read())
 
 bot.run()
