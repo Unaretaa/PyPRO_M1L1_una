@@ -73,4 +73,12 @@ async def saran(ctx):
     with open('saran.txt', 'r', encoding='utf-8') as f:
         await ctx.send(f.read())
 
+@bot.command('saran')
+async def saran(ctx):
+    with open('saran.txt', 'r', encoding='utf-8') as f:
+        await ctx.send(f.read())
+    with open(f'images/meme1.jpeg', 'rb') as f:
+        picture = discord.File(f)
+    await ctx.send(file=picture)
+
 bot.run()
